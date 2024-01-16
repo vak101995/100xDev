@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<script>
+    let timeout;
+    function debouncePopulateDiv() {
+        clearTimeout(timeout)
+        timeout = setInterval(function () {
+            populateDiv()
+        }, 1000);
+        clearTimeout(timeout)
+    }
+
+    async function populateDiv() {
+
+        const a = document.getElementById("firstNumber").value;
+        const b = document.getElementById("secondNumber").value;
+        const element = document.getElementById("finalSum")
+        console.log(element)
+        //fetch("https://sum-server.100xdevs.com/sum?a=" + a + "&b=" + b)
+        const response = await fetch("http:localhost:3000/sum?a=" + a + "&b=" + b);
+        const ans = await response.text();
+        element.innerHTML = ans;
+        //element.innerHTML = parseInt(a) + parseInt(b);
+    }
+
+    async function populateSI() {
+        const p = document.getElementById("Principal").value;
+        const r = document.getElementById("Rate").value;
+        const t = document.getElementById("Time").value;
+        const si = document.getElementById("SimpleInterest")
+        console.log(si);
+        const siResponse = await fetch("http:localhost:3000/interest?p=" + p + "&r=" + r + "&t" + t);
+        const sians = await siResponse.text();
+        console.log(sians);
+        si.innerHTML = sians;
+    }
+</script>
+
+<head>
+
+</head>
+
+<style>
+    .container {
+        background-color: red;
+        margin: 100;
+        padding: 20;
+        font-size: 18;
+    }
+</style>
+
+<body>
+
+
+    <div id="container1">
+        <input onchange="debouncePopulateDiv()" id="firstNumber" type="text" placeholder="First number"> </input> <br>
+    </div>
+    <br>
+    <div id="container2">
+        <input onchange="debouncePopulateDiv()" id="secondNumber" type="text" placeholder="Second number"> </input> <br>
+    </div>
+    <br><br>
+    <button onclick="populateDiv()"> Calculate sum</button> <br>
+    <div id="finalSum"></div>
+    <br><br><br>
+    <div>
+        <input id="Principal" type="text" placeholder="Principal"> </input>
+    </div> <br>
+    <div>
+        <input id="Rate" type="text" placeholder="Rate"> </input>
+    </div> <br>
+    <div>
+        <input id="Time" type="text" placeholder="Time"> </input>
+    </div> <br>
+    <button onclick="populateSI()"> Calculate simple interest</button>
+    <div id="SimpleInterest"></div>
+    <br><br>
+</body>
